@@ -13,13 +13,53 @@
     font-family:Inter,system-ui,sans-serif;
     color:#fff;
     background-color:#0F1B2D;
+    min-height:100vh;
+    display:flex;flex-direction:column;
+    overflow-x:hidden;
+  }
+  header,main,footer{position:relative;z-index:1}
+
+  /* ---------- Bakgrunnsanimasjoner ---------- */
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .grid{
+    position:absolute;inset:-80px;
     background-image:
       linear-gradient(#1A2A42 1px,transparent 1px),
       linear-gradient(90deg,#1A2A42 1px,transparent 1px);
     background-size:40px 40px;
-    min-height:100vh;
-    display:flex;flex-direction:column;
+    animation:gridPan 30s linear infinite;
   }
+  @keyframes gridPan{to{transform:translate(40px,40px)}}
+  .vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,#0F1B2D 85%)}
+
+  .scan{
+    position:absolute;left:0;right:0;height:140px;top:-140px;
+    background:linear-gradient(to bottom,transparent,rgba(240,138,75,.07) 70%,rgba(240,138,75,.35) 99%,transparent);
+    animation:scan 9s ease-in-out infinite;
+  }
+  @keyframes scan{0%{transform:translateY(0)}100%{transform:translateY(calc(100vh + 140px))}}
+
+  .cube{position:absolute;opacity:.35;animation:float 14s ease-in-out infinite}
+  .cube svg{display:block;width:100%;height:auto;animation:spin 40s linear infinite}
+  .cube path{fill:none;stroke:#4A6A96;stroke-width:1.2;stroke-linejoin:round}
+  .cube .edge{stroke:#F08A4B;stroke-dasharray:6 200;animation:trace 6s linear infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-28px)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes trace{to{stroke-dashoffset:-206}}
+  .c1{width:120px;top:12%;left:6%;animation-delay:0s}
+  .c2{width:70px;top:68%;left:12%;animation-delay:-4s;opacity:.25}
+  .c3{width:150px;top:18%;right:7%;animation-delay:-7s}
+  .c4{width:60px;top:76%;right:16%;animation-delay:-2s;opacity:.25}
+  .c5{width:90px;top:44%;left:-1%;animation-delay:-10s;opacity:.2}
+  .c6{width:80px;top:48%;right:2%;animation-delay:-5s;opacity:.2}
+  .c1 svg,.c4 svg{animation-direction:reverse}
+  .c3 svg{animation-duration:60s}
+
+  .dot{position:absolute;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#F08A4B;box-shadow:0 0 12px 3px rgba(240,138,75,.5);opacity:0;animation:pulse 5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:0;transform:scale(.4)}40%{opacity:.9;transform:scale(1)}70%{opacity:0;transform:scale(1.6)}}
+
+  @media (max-width:640px){.c2,.c4,.c5,.c6{display:none}.c1{width:80px}.c3{width:90px}}
+  @media (prefers-reduced-motion:reduce){.bg *,.bg{animation:none!important}.scan{display:none}}
   header{padding:24px;display:flex;justify-content:center}
   .logo{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;letter-spacing:-.01em}
   .logo span{color:#F08A4B}
@@ -43,6 +83,23 @@
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true">
+  <div class="grid"></div>
+  <div class="scan"></div>
+  <div class="cube c1"><svg viewBox="0 0 100 100"><path d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/><path d="M12 30 L50 52 L88 30"/><path d="M50 52 L50 94"/><path class="edge" d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/></svg></div>
+  <div class="cube c2"><svg viewBox="0 0 100 100"><path d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/><path d="M12 30 L50 52 L88 30"/><path d="M50 52 L50 94"/><path class="edge" d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/></svg></div>
+  <div class="cube c3"><svg viewBox="0 0 100 100"><path d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/><path d="M12 30 L50 52 L88 30"/><path d="M50 52 L50 94"/><path d="M31 41 L31 83"/><path d="M69 41 L69 83"/><path d="M12 51 L50 73 L88 51"/><path class="edge" d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/></svg></div>
+  <div class="cube c4"><svg viewBox="0 0 100 100"><path d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/><path d="M12 30 L50 52 L88 30"/><path d="M50 52 L50 94"/><path class="edge" d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/></svg></div>
+  <div class="cube c5"><svg viewBox="0 0 100 100"><path d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/><path d="M12 30 L50 52 L88 30"/><path d="M50 52 L50 94"/><path class="edge" d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/></svg></div>
+  <div class="cube c6"><svg viewBox="0 0 100 100"><path d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/><path d="M12 30 L50 52 L88 30"/><path d="M50 52 L50 94"/><path class="edge" d="M50 8 L88 30 L88 72 L50 94 L12 72 L12 30 Z"/></svg></div>
+  <span class="dot" style="top:22%;left:28%;animation-delay:0s"></span>
+  <span class="dot" style="top:35%;left:82%;animation-delay:-1.2s"></span>
+  <span class="dot" style="top:72%;left:36%;animation-delay:-2.4s"></span>
+  <span class="dot" style="top:84%;left:70%;animation-delay:-3.6s"></span>
+  <span class="dot" style="top:58%;left:18%;animation-delay:-1.8s"></span>
+  <span class="dot" style="top:10%;left:60%;animation-delay:-3s"></span>
+  <div class="vignette"></div>
+</div>
 <header>
   <div class="logo">
     <svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="#F08A4B" stroke-width="2" aria-hidden="true"><path d="M16 3 L28 10 L28 22 L16 29 L4 22 L4 10 Z"/><path d="M4 10 L16 17 L28 10"/><path d="M16 17 L16 29"/></svg>
